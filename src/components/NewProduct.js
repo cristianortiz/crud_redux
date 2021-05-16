@@ -1,5 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createNewProductAction } from "../actions/productAction";
+
 const NewProduct = () => {
+  //local state only for the form inputs
+  const [product_name, handleProductName] = useState("");
+  const [price, handlePrice] = useState("");
+
+  //useDispatch creates a function to comunicates whit actions
+  const dispatch = useDispatch();
+  //thw dispatch call in productActions the function to add a new product
+  const addProduct = (product) => dispatch(createNewProductAction(product));
+
+  //when user submit the form
+  const submitNewProduct = (e) => {
+    e.preventDefault();
+    //validates form
+    if (product_name.trim() === "" || price <= 0) {
+      return;
+    }
+
+    //if there ir no error
+
+    //create new product calling the function which call the action
+    addProduct({
+      product_name,
+      price,
+    });
+  };
   return (
     <div className="row justify-content-center">
       <div className="col-md-8">
@@ -8,7 +36,7 @@ const NewProduct = () => {
             <h2 className="text-center mb-4 font-weight-bold">
               Add New Product
             </h2>
-            <form>
+            <form onSubmit={submitNewProduct}>
               <div className="form-group">
                 <label>Product Name</label>
                 <input
@@ -16,6 +44,8 @@ const NewProduct = () => {
                   className="form-control"
                   placeholder="product name"
                   name="product_name"
+                  value={product_name}
+                  onChange={(e) => handleProductName(e.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -25,6 +55,8 @@ const NewProduct = () => {
                   className="form-control"
                   placeholder="product price"
                   name="price"
+                  value={price}
+                  onChange={(e) => handlePrice(Number(e.target.value))}
                 />
               </div>
               <button
