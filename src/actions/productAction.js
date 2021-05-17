@@ -1,18 +1,44 @@
-import { ADD_PRODUCT, SUCCESS_ADD_PROD } from "../types";
+import {
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  DELETE_PROD_ERROR,
+  DELETE_PROD_SUCCESS,
+  ERROR_ADD_PROD,
+  GET_PRODUCTS_LIST,
+  GET_PROD_LIST_ERROR,
+  GET_PROD_LIST_SUCCESS,
+  SUCCESS_ADD_PROD,
+} from "../types";
+import axiosClient from "../config/axios";
+import Swal from "sweetalert2";
 
-//create new products
+//--------------create new products---------------------
 export function createNewProductAction(product) {
-  return (dispatch) => {
+  return async (dispatch) => {
+    //the action to add a product to DB or API (notificacion to state)
     dispatch(addProduct());
-
     try {
+      //the real tring to insert a new product in DB or API
+      await axiosClient.post("/products", product);
+      // action to update state when a product was succefully added in BD
       dispatch(successAddProduct(product));
+      //alert to user
+      Swal.fire("Success", "Product added correctly", "success");
     } catch (error) {
+      console.log(error);
+      //dispatch an action if there is an error trying to add a new product in BD
       dispatch(errorAddProduct(true));
+
+      //error alert to user
+      Swal.fire({
+        icon: "error",
+        title: "An error occurs",
+        text: "there is an error, please try again",
+      });
     }
   };
 }
-//to fire up sometimes in state (see the reducer) when addProduct is called
+//action to add a new product in the state (see the reducer) when addProduct is called
 const addProduct = () => ({
   type: ADD_PRODUCT,
 });
@@ -24,4 +50,65 @@ const successAddProduct = (product) => ({
   payload: product,
 });
 //if an error occurs trying to save product
-const errorAddProduct = () => {};
+const errorAddProduct = (state) => ({
+  type: ERROR_ADD_PROD,
+  payload: state,
+});
+
+//---------function to get products from DB or API---------
+export function getProductsAction() {
+  return async (dispatch) => {
+    dispatch(getProducts());
+    try {
+      //request the API or DB for data
+      const response = await axiosClient.get("/products");
+      //dispatch the retrieved data to update state
+      dispatch(getProductsSuccess(response.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getProductsError());
+    }
+  };
+}
+
+const getProducts = () => ({
+  type: GET_PRODUCTS_LIST,
+  payload: true,
+});
+//send the retrieve data to productReducer to update the state
+const getProductsSuccess = (products) => ({
+  type: GET_PROD_LIST_SUCCESS,
+  payload: products,
+});
+
+const getProductsError = () => ({
+  type: GET_PROD_LIST_ERROR,
+  payload: true,
+});
+
+//-----------selects and delete a product by id-------------
+export function deleteProductAction(id) {
+  return async (dispatch) => {
+    dispatch(deleteProduct(id));
+    try {
+      const response = await axiosClient.delete(`/products/${id}`);
+      dispatch(deleteProductOK());
+    } catch (error) {
+      dispatch(deleteProductError());
+    }
+  };
+}
+
+const deleteProduct = (id) => ({
+  type: DELETE_PRODUCT,
+  payload: id,
+});
+
+const deleteProductOK = () => ({
+  type: DELETE_PROD_SUCCESS,
+});
+
+const deleteProductError = () => ({
+  type: DELETE_PROD_ERROR,
+  payload: true,
+});

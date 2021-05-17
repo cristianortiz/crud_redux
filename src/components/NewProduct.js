@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createNewProductAction } from "../actions/productAction";
 
-const NewProduct = () => {
+const NewProduct = ({ history }) => {
   //local state only for the form inputs
   const [product_name, handleProductName] = useState("");
   const [price, handlePrice] = useState("");
 
   //useDispatch creates a function to comunicates whit actions
   const dispatch = useDispatch();
+
+  //acces to store global state
+  const loading = useSelector((state) => state.products.loading);
+  const error = useSelector((state) => state.products.error);
+
   //thw dispatch call in productActions the function to add a new product
   const addProduct = (product) => dispatch(createNewProductAction(product));
 
@@ -27,6 +32,8 @@ const NewProduct = () => {
       product_name,
       price,
     });
+    //redirect to main component
+    history.push("/");
   };
   return (
     <div className="row justify-content-center">
@@ -66,6 +73,12 @@ const NewProduct = () => {
                 Add
               </button>
             </form>
+            {loading ? <p>Loading...</p> : null}
+            {error ? (
+              <p className="alert alert-danger p2 mt-4 text-center">
+                An error occurs..
+              </p>
+            ) : null}
           </div>
         </div>
       </div>

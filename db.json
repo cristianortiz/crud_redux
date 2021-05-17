@@ -1,29 +1,39 @@
 {
-    "products": [
-      {
-        "id": 1,
-        "product_name": "SSD Hard drive",
-        "price": "311"
-      },
-      {
-        "id": 2,
-        "product_name": "intel Motherboard",
-        "price": "250"
-      },
-      {
-        "product_name": "AMD ryzen CPU",
-        "price": "500",
-        "id": 3
-      },
-      {
-        "product_name": "Nvidia GPU",
-        "price": "200",
-        "id": 4
-      },
-      {
-        "product_name": "Corsair DDR RAM Module",
-        "price": "140",
-        "id": 5
-      }
-    ]
-  }
+  "products": [
+    {
+      "id": 1,
+      "product_name": "SSD Hard drive",
+      "price": "311"
+    },
+    {
+      "id": 2,
+      "product_name": "intel Motherboard",
+      "price": "250"
+    },
+    {
+      "product_name": "AMD ryzen CPU",
+      "price": "500",
+      "id": 3
+    },
+    {
+      "product_name": "Nvidia GPU",
+      "price": "200",
+      "id": 4
+    },
+    {
+      "product_name": "Corsair DDR RAM Module",
+      "price": "140",
+      "id": 5
+    },
+    {
+      "product_name": "optical mouse",
+      "price": 23,
+      "id": 6
+    },
+    {
+      "product_name": "network card",
+      "price": 344,
+      "id": 7
+    }
+  ]
+}
