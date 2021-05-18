@@ -1,12 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editProductAction } from "../actions/productAction";
+
 const EditProduct = () => {
+  //local state for handle the edit form inputs
+  const [product_edited, handleProduct] = useState({
+    product_name: "",
+    price: "",
+  });
+  //product to edit from state
+  const product_to_edit = useSelector(
+    (state) => state.products.product_to_edit
+  );
+
+  //fill the state in automated way
+  useEffect(() => {
+    handleProduct(product_to_edit);
+  }, [product_to_edit]);
+
+  //destructuring local state to show the changes in inputs when user edit it
+  const { product_name, price } = product_edited;
+  //get the edit data form
+  const onChangeForm = (e) => {
+    handleProduct({
+      ...product_edited,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitEditedProduct = (e) => {
+    e.preventDefault();
+    editProductAction(product_edited);
+  };
+  //console.log(product);
   return (
     <div className="row justify-content-center">
       <div className="col-md-8">
         <div className="card">
           <div className="card-body">
             <h2 className="text-center mb-4 font-weight-bold">Edit Product</h2>
-            <form>
+            <form onSubmit={submitEditedProduct}>
               <div className="form-group">
                 <label>Product Name</label>
                 <input
@@ -14,6 +47,8 @@ const EditProduct = () => {
                   className="form-control"
                   placeholder="product name"
                   name="product_name"
+                  value={product_name}
+                  onChange={onChangeForm}
                 />
               </div>
               <div className="form-group">
@@ -23,6 +58,8 @@ const EditProduct = () => {
                   className="form-control"
                   placeholder="product price"
                   name="price"
+                  value={price}
+                  onChange={onChangeForm}
                 />
               </div>
               <button

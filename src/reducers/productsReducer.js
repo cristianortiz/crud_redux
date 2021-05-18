@@ -4,6 +4,7 @@ import {
   DELETE_PROD_ERROR,
   DELETE_PROD_SUCCESS,
   ERROR_ADD_PROD,
+  GET_EDIT_PRODUCT,
   GET_PRODUCTS_LIST,
   GET_PROD_LIST_ERROR,
   GET_PROD_LIST_SUCCESS,
@@ -16,6 +17,7 @@ const initialState = {
   error: null,
   loading: false,
   product_to_del: null,
+  product_to_edit: null,
 };
 
 //the redux is a function so export it
@@ -55,17 +57,26 @@ export default function (state = initialState, action) {
     case DELETE_PRODUCT:
       return {
         ...state,
-        //id of the product deleted
+        //id of the product to be deleted
         product_to_del: action.payload,
       };
     case DELETE_PROD_SUCCESS:
       return {
         ...state,
         products:
-          //filter the products object and get all minis product_ok_del
-          state.products.filter((product) => product.id) !==
-          state.product_to_del,
+          //filter the products object and get all minus the id in product_ok_del
+          state.products.filter(
+            (product) => product.id !== state.product_to_del
+          ),
+
         product_to_del: null, //reset the prop
+      };
+    //get the state product object to be edit it later
+    case GET_EDIT_PRODUCT:
+      return {
+        ...state,
+        //the product object picked by the user to edit it action.payload
+        product_to_edit: action.payload,
       };
 
     default:

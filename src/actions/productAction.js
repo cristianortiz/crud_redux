@@ -3,11 +3,15 @@ import {
   DELETE_PRODUCT,
   DELETE_PROD_ERROR,
   DELETE_PROD_SUCCESS,
+  GET_EDIT_PRODUCT,
   ERROR_ADD_PROD,
   GET_PRODUCTS_LIST,
   GET_PROD_LIST_ERROR,
   GET_PROD_LIST_SUCCESS,
   SUCCESS_ADD_PROD,
+  EDIT_PRODUCT,
+  EDIT_PROD_SUCCESS,
+  EDIT_PROD_ERROR,
 } from "../types";
 import axiosClient from "../config/axios";
 import Swal from "sweetalert2";
@@ -91,14 +95,16 @@ export function deleteProductAction(id) {
   return async (dispatch) => {
     dispatch(deleteProduct(id));
     try {
-      const response = await axiosClient.delete(`/products/${id}`);
+      await axiosClient.delete(`/products/${id}`);
       dispatch(deleteProductOK());
+      //show delete success modal alert
+      Swal.fire("Deleted!", "The Product has been deleted.", "success");
     } catch (error) {
+      console.log(error);
       dispatch(deleteProductError());
     }
   };
 }
-
 const deleteProduct = (id) => ({
   type: DELETE_PRODUCT,
   payload: id,
@@ -110,5 +116,46 @@ const deleteProductOK = () => ({
 
 const deleteProductError = () => ({
   type: DELETE_PROD_ERROR,
+  payload: true,
+});
+
+//-----Fuction to get a product by id before edit it
+export function getEditProductAction(product) {
+  return (dispatch) => {
+    dispatch(getProductAction(product));
+  };
+}
+
+const getProductAction = (product) => ({
+  type: GET_EDIT_PRODUCT,
+  payload: product,
+});
+
+//-------functions to edit a product from edit form----
+export function editProductAction(product) {
+  return async (dispatch) => {
+    dispatch(getProductAction(product));
+    try {
+      //passing the id of the product and their data to be edited
+      const response = await axiosClient.put(
+        `/products/${product.id}`,
+        product
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+const editProduct = (product) => ({
+  type: EDIT_PRODUCT,
+  payload: product,
+});
+const editProductOK = () => ({
+  type: EDIT_PROD_SUCCESS,
+});
+
+const editProductError = () => ({
+  type: EDIT_PROD_ERROR,
   payload: true,
 });

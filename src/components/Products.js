@@ -2,6 +2,8 @@ import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsAction } from "../actions/productAction";
 import SingleProduct from "./SingleProduct";
+import Swal from "sweetalert2";
+
 const Products = () => {
   const dispatch = useDispatch();
 

@@ -24,16 +24,6 @@
       "product_name": "Corsair DDR RAM Module",
       "price": "140",
       "id": 5
-    },
-    {
-      "product_name": "optical mouse",
-      "price": 23,
-      "id": 6
-    },
-    {
-      "product_name": "network card",
-      "price": 344,
-      "id": 7
     }
   ]
 }

@@ -12,3 +12,9 @@ export const GET_PROD_LIST_ERROR = "GGET_PROD_LIST_ERROR ";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const DELETE_PROD_SUCCESS = "DELETE_PROD_SUCCESS";
 export const DELETE_PROD_ERROR = "DELETE_PROD_ERROR";
+
+//getting a product to delete
+export const GET_EDIT_PRODUCT = "GET_EDIT_PRODUCT";
+export const EDIT_PRODUCT = "EDIT_PRODUCT";
+export const EDIT_PROD_SUCCESS = "EDIT_PROD_SUCCESS";
+export const EDIT_PROD_ERROR = "EDIT_PROD_ERROR";
