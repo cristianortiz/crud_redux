@@ -134,28 +134,30 @@ const getProductAction = (product) => ({
 //-------functions to edit a product from edit form----
 export function editProductAction(product) {
   return async (dispatch) => {
-    dispatch(getProductAction(product));
+    dispatch(editProduct());
     try {
-      //passing the id of the product and their data to be edited
-      const response = await axiosClient.put(
-        `/products/${product.id}`,
-        product
-      );
-      console.log(response.data);
+      //passing the id of the product and their data to be edited in API or DB
+      await axiosClient.put(`/products/${product.id}`, product);
+      //call dispatch to update state
+      dispatch(editProductOK(product));
+      //console.log(response.data);
     } catch (error) {
+      dispatch(editProductError(error));
       console.log(error);
     }
   };
 }
-const editProduct = (product) => ({
+//to notify the state that a product is being edited
+const editProduct = () => ({
   type: EDIT_PRODUCT,
+});
+//dispatch to update the product in state in productReducer
+const editProductOK = (product) => ({
+  type: EDIT_PROD_SUCCESS,
   payload: product,
 });
-const editProductOK = () => ({
-  type: EDIT_PROD_SUCCESS,
-});
 
-const editProductError = () => ({
+const editProductError = (error) => ({
   type: EDIT_PROD_ERROR,
   payload: true,
 });

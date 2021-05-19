@@ -3,6 +3,8 @@ import {
   DELETE_PRODUCT,
   DELETE_PROD_ERROR,
   DELETE_PROD_SUCCESS,
+  EDIT_PROD_ERROR,
+  EDIT_PROD_SUCCESS,
   ERROR_ADD_PROD,
   GET_EDIT_PRODUCT,
   GET_PRODUCTS_LIST,
@@ -21,7 +23,7 @@ const initialState = {
 };
 
 //the redux is a function so export it
-export default function (state = initialState, action) {
+const productReducer = (state = initialState, action) => {
   switch (action.type) {
     //the action of save a product and action of get products, do the same
     case GET_PRODUCTS_LIST:
@@ -41,6 +43,7 @@ export default function (state = initialState, action) {
     case ERROR_ADD_PROD:
     case GET_PROD_LIST_ERROR:
     case DELETE_PROD_ERROR:
+    case EDIT_PROD_ERROR:
       return {
         ...state,
         loading: false,
@@ -78,8 +81,22 @@ export default function (state = initialState, action) {
         //the product object picked by the user to edit it action.payload
         product_to_edit: action.payload,
       };
+    //if a product was succesfully edited update it in state
+    case EDIT_PROD_SUCCESS:
+      return {
+        ...state,
+        product_to_edit: null,
+        //iterates all state products, if the id of a product match whit
+        // the edited product id, replace all data of that product
+        products: state.products.map((product) =>
+          product.id === action.payload.id
+            ? (product = action.payload)
+            : product
+        ),
+      };
 
     default:
       return state;
   }
-}
+};
+export default productReducer;

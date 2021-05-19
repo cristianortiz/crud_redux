@@ -18,3 +18,7 @@ export const GET_EDIT_PRODUCT = "GET_EDIT_PRODUCT";
 export const EDIT_PRODUCT = "EDIT_PRODUCT";
 export const EDIT_PROD_SUCCESS = "EDIT_PROD_SUCCESS";
 export const EDIT_PROD_ERROR = "EDIT_PROD_ERROR";
+
+//to show validations alerts
+export const SHOW_ALERT = "SHOW_ALERT";
+export const HIDE_ALERT = "HIDE_ALERT";

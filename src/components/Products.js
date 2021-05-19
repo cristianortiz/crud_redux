@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsAction } from "../actions/productAction";
 import SingleProduct from "./SingleProduct";
-import Swal from "sweetalert2";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -11,7 +10,9 @@ const Products = () => {
   useEffect(() => {
     //request products from API
     const getProducts = () => dispatch(getProductsAction());
+
     getProducts();
+    // eslint-disable-next-line
   }, []);
   //useSelector to acces the products object in  global Store products State
   const products = useSelector((state) => state.products.products);
@@ -35,11 +36,15 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {products.length === 0
-            ? "No products to show"
-            : products.map((product) => (
-                <SingleProduct key={product.id} product={product} />
-              ))}
+          {products.length === 0 ? (
+            <tr>
+              <td>"No products to show"</td>
+            </tr>
+          ) : (
+            products.map((product) => (
+              <SingleProduct key={product.id} product={product} />
+            ))
+          )}
         </tbody>
       </table>
     </Fragment>

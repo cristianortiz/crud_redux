@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { hideAlertAction, showAlertAction } from "../actions/alertAction";
 import { createNewProductAction } from "../actions/productAction";
 
 const NewProduct = ({ history }) => {
@@ -13,6 +14,7 @@ const NewProduct = ({ history }) => {
   //acces to store global state
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
+  const alert = useSelector((state) => state.alert.alert);
 
   //thw dispatch call in productActions the function to add a new product
   const addProduct = (product) => dispatch(createNewProductAction(product));
@@ -22,10 +24,17 @@ const NewProduct = ({ history }) => {
     e.preventDefault();
     //validates form
     if (product_name.trim() === "" || price <= 0) {
+      //config and dispatch an alert
+      const alert = {
+        msg: "all fields are mandatory",
+        classes: "alert alert-danger text-center text-uppercase p3",
+      };
+      dispatch(showAlertAction(alert));
+
       return;
     }
-
-    //if there ir no error
+    //if there is no validation error hide any previous deployed alert
+    dispatch(hideAlertAction());
 
     //create new product calling the function which call the action
     addProduct({
@@ -43,6 +52,7 @@ const NewProduct = ({ history }) => {
             <h2 className="text-center mb-4 font-weight-bold">
               Add New Product
             </h2>
+            {alert ? <p className={alert.classes}>{alert.msg}</p> : null}
             <form onSubmit={submitNewProduct}>
               <div className="form-group">
                 <label>Product Name</label>

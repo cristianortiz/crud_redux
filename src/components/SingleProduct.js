@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   deleteProductAction,
   getEditProductAction,

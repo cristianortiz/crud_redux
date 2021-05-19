@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { editProductAction } from "../actions/productAction";
 
 const EditProduct = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   //local state for handle the edit form inputs
   const [product_edited, handleProduct] = useState({
     product_name: "",
@@ -30,7 +33,12 @@ const EditProduct = () => {
 
   const submitEditedProduct = (e) => {
     e.preventDefault();
-    editProductAction(product_edited);
+
+    //dispatch the Action to edit the product
+    dispatch(editProductAction(product_edited));
+
+    //redirect to main component
+    history.push("/");
   };
   //console.log(product);
   return (

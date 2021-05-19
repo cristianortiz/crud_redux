@@ -3,7 +3,7 @@
     {
       "id": 1,
       "product_name": "SSD Hard drive",
-      "price": "311"
+      "price": "31"
     },
     {
       "id": 2,
@@ -24,6 +24,11 @@
       "product_name": "Corsair DDR RAM Module",
       "price": "140",
       "id": 5
+    },
+    {
+      "product_name": "to delete",
+      "price": 234,
+      "id": 6
     }
   ]
 }
